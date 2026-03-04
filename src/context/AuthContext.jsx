@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (email, password) => {
-        // Mock login logic
+      
         const mockUser = {
             name: email.split('@')[0],
             email: email,
@@ -29,11 +29,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     const signup = (name, email, password) => {
-        // Mock signup logic
+       
         const mockUser = {
             name: name,
             email: email,
-            role: 'customer' // Default role for signup
+            role: 'customer' 
         };
         setUser(mockUser);
         localStorage.setItem('user', JSON.stringify(mockUser));

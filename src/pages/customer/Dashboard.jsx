@@ -5,22 +5,17 @@ import { motion } from 'framer-motion';
 import { Search, Filter, Eye, CheckCircle2, Inbox, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-/**
- * CustomerDashboard: The main landing page for customers.
- * Shows personal ticket statistics and a searchable table of tickets.
- */
-const CustomerDashboard = () => {
-  // 1. Context and State Hooks
-  const { tickets } = useTickets(); // Get global tickets list
-  const { user } = useAuth(); // Get current logged in user
-  const [searchTerm, setSearchTerm] = useState(''); // State for search input
-  const [filterStatus, setFilterStatus] = useState('All'); // State for status filter
 
-  // 2. Data Filtering Logic
-  // First, only get tickets that belong to the current customer
+const CustomerDashboard = () => {
+  
+  const { tickets } = useTickets();
+  const { user } = useAuth(); 
+  const [searchTerm, setSearchTerm] = useState(''); 
+  const [filterStatus, setFilterStatus] = useState('All'); 
+
   const customerTickets = tickets.filter(t => t.customer === user?.name);
 
-  // Second, apply search and status filters to that subset
+  
   const filteredTickets = customerTickets.filter(ticket => {
     const matchesSearch = ticket.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket.id.toLowerCase().includes(searchTerm.toLowerCase());
@@ -28,7 +23,7 @@ const CustomerDashboard = () => {
     return matchesSearch && matchesFilter;
   });
 
-  // Calculate quick stats for the dashboard header
+ 
   const stats = {
     total: customerTickets.length,
     open: customerTickets.filter(t => t.status === 'Open' || t.status === 'In Progress').length,
@@ -41,7 +36,7 @@ const CustomerDashboard = () => {
       animate={{ opacity: 1 }}
       className="content-inner"
     >
-      {/* 3. Dashboard Header */}
+
       <header className="dashboard-header">
         <div>
           <h1 className="page-title">Ticket Overview</h1>
@@ -49,7 +44,7 @@ const CustomerDashboard = () => {
         </div>
       </header>
 
-      {/* 4. Statistics Calculation Cards */}
+   
       <div className="stats-grid">
         <div className="stat-card">
           <div className="flex justify-between items-start mb-2">
@@ -74,12 +69,12 @@ const CustomerDashboard = () => {
         </div>
       </div>
 
-      {/* 5. Main Ticket List Card */}
+     
       <div className="card">
-        {/* Table Filters Header */}
+      
         <div className="card-header">
           <div className="flex items-center gap-4">
-            {/* Search Input Box */}
+    
             <div className="search-wrapper">
               <Search size={14} className="search-icon-inside" />
               <input
@@ -90,7 +85,7 @@ const CustomerDashboard = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            {/* Status Dropdown Filter */}
+        
             <div className="flex items-center gap-2">
               <span className="filter-label">Status:</span>
               <select
@@ -114,7 +109,7 @@ const CustomerDashboard = () => {
           </div>
         </div>
 
-        {/* 6. Tickets Data Table */}
+   
         <div className="table-container">
           <table>
             <thead>
@@ -159,7 +154,7 @@ const CustomerDashboard = () => {
                   </tr>
                 ))
               ) : (
-                /* Empty state when no tickets match filters */
+               
                 <tr>
                   <td colSpan="6" className="empty-state-container">
                     <div className="flex flex-col items-center gap-3">

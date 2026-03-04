@@ -4,21 +4,20 @@ import { useAuth } from '../../context/AuthContext';
 import { Mail, Lock, Loader2, ChevronRight, Github, User, ShieldCheck, Sparkles, CheckCircle, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-/**
- * Signup Component: Handles new user registration.
- */
-const Signup = () => {
-  // 1. State Management
-  const [name, setName] = useState('');           // Stores name
-  const [email, setEmail] = useState('');         // Stores email address
-  const [password, setPassword] = useState('');   // Stores password
-  const [loading, setLoading] = useState(false);   // Shows loading spinner on button
 
-  // 2. Custom hooks
+
+const Signup = () => {
+  
+  const [name, setName] = useState('');           
+  const [email, setEmail] = useState('');        
+  const [password, setPassword] = useState('');   
+  const [loading, setLoading] = useState(false);  
+
+
   const { signup, user: currentUser } = useAuth();
   const navigate = useNavigate();
 
-  // 3. Redirect if already logged in
+
   useEffect(() => {
     if (currentUser) {
       if (currentUser.role === 'customer') navigate('/customer/dashboard');
@@ -27,14 +26,12 @@ const Signup = () => {
     }
   }, [currentUser, navigate]);
 
-  /**
-   * Handles form submission for Signup.
-   */
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
     setLoading(true);
 
-    // Simulate network delay for a better UX (1.2 seconds)
+  
     setTimeout(() => {
       const user = signup(name, email, password);
       setLoading(false);

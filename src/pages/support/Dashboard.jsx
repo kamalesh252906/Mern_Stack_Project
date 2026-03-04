@@ -4,30 +4,27 @@ import { useAuth } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
 import { Search, LayoutGrid, UserCheck, Zap, UserPlus, CheckCircle, Filter, ChevronDown } from 'lucide-react';
 
-/**
- * SupportDashboard: Global overview for support agents.
- * Allows picking up unassigned tickets and filtering by assignments.
- */
-const SupportDashboard = () => {
-  // 1. Hook setup
-  const { tickets, assignTicket } = useTickets(); // Access global ticket state and assignment action
-  const { user } = useAuth(); // Access logged-in user data
-  const [searchTerm, setSearchTerm] = useState(''); // Text search state
-  const [viewMode, setViewMode] = useState('All'); // 'All' or 'My' assignments view mode
 
-  // 2. Dashboard Logic
+const SupportDashboard = () => {
+
+  const { tickets, assignTicket } = useTickets(); 
+  const { user } = useAuth(); 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState('All');
+
+ 
   const filteredTickets = tickets.filter(ticket => {
-    // Check if ticket ID, subject or customer name matches search
+    
     const matchesSearch = ticket.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ticket.customer.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Check if view mode matches assignment
+   
     const matchesView = viewMode === 'All' ? true : ticket.assignedTo === user.name;
     return matchesSearch && matchesView;
   });
 
-  // KPI Calculations
+
   const stats = {
     total: tickets.length,
     unassigned: tickets.filter(t => !t.assignedTo).length,
@@ -35,9 +32,7 @@ const SupportDashboard = () => {
     urgent: tickets.filter(t => t.priority === 'High' || t.priority === 'Urgent').length
   };
 
-  /**
-   * Action handler: Assign unassigned ticket to the current agent.
-   */
+ 
   const handleSelfAssign = (id) => {
     assignTicket(id, user.name);
   };
@@ -48,7 +43,7 @@ const SupportDashboard = () => {
       animate={{ opacity: 1 }}
       className="content-inner"
     >
-      {/* 3. Global Header Area */}
+    
       <header className="dashboard-header">
         <div>
           <h1 className="page-title">Global Helpdesk</h1>
@@ -61,7 +56,7 @@ const SupportDashboard = () => {
           </div>
         </div>
 
-        {/* View Switchers */}
+      
         <div className="flex gap-2">
           <button
             type="button"
@@ -82,7 +77,7 @@ const SupportDashboard = () => {
         </div>
       </header>
 
-      {/* 4. KPI Scorecards */}
+     
       <div className="stats-grid">
         <div className="stat-card stat-card-queue">
           <span className="stat-label">Global Queue</span>
@@ -102,7 +97,7 @@ const SupportDashboard = () => {
         </div>
       </div>
 
-      {/* 5. Main Content Card */}
+    
       <div className="card">
         <div className="card-header">
           <div className="flex items-center gap-4">
@@ -126,7 +121,7 @@ const SupportDashboard = () => {
           </div>
         </div>
 
-        {/* 6. Tickets Queue Table */}
+       
         <div className="table-container">
           <table>
             <thead>
@@ -172,7 +167,7 @@ const SupportDashboard = () => {
                     </td>
                     <td className="table-actions-right">
                       {!ticket.assignedTo ? (
-                        /* Pickup Action for Unassigned tickets */
+                      
                         <button
                           type="button"
                           onClick={() => handleSelfAssign(ticket.id)}
@@ -182,7 +177,7 @@ const SupportDashboard = () => {
                           <span>Pick up</span>
                         </button>
                       ) : (
-                        /* Manage Action for assigned tickets */
+                       
                         <button className="btn btn-secondary btn-xsmall" disabled>
                           <CheckCircle size={14} />
                           <span>Assigned</span>
@@ -192,7 +187,7 @@ const SupportDashboard = () => {
                   </tr>
                 ))
               ) : (
-                /* Empty Result placeholder */
+            
                 <tr>
                   <td colSpan="6" className="empty-state-container">
                     <div className="flex flex-col items-center gap-3">

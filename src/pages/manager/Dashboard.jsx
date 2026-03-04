@@ -13,16 +13,13 @@ import {
   Search
 } from 'lucide-react';
 
-/**
- * ManagerDashboard: Management level overview.
- * High-level analytics and ticket triage (assigning agents).
- */
-const ManagerDashboard = () => {
-  // 1. Hooks and State
-  const { tickets, assignTicket } = useTickets();
-  const [selectedSupport, setSelectedSupport] = useState({}); // Stores chosen agent for each pending ticket
 
-  // 2. Data Aggregation
+const ManagerDashboard = () => {
+ 
+  const { tickets, assignTicket } = useTickets();
+  const [selectedSupport, setSelectedSupport] = useState({}); 
+
+ 
   const stats = {
     total: tickets.length,
     open: tickets.filter(t => t.status === 'Open').length,
@@ -30,12 +27,10 @@ const ManagerDashboard = () => {
     urgent: tickets.filter(t => t.priority === 'High' || t.priority === 'Urgent').length
   };
 
-  // Mock team data (In a real app, this would come from an API)
+  
   const supportTeam = ['Support Agent A', 'Support Agent B', 'Support Agent C'];
 
-  /**
-   * Action handler: Manager assigns an agent to a ticket.
-   */
+  
   const handleAssign = (ticketId) => {
     const supportName = selectedSupport[ticketId];
     if (supportName) {
@@ -55,7 +50,7 @@ const ManagerDashboard = () => {
       animate={{ opacity: 1 }}
       className="content-inner"
     >
-      {/* 3. Analytics Header */}
+     
       <header className="dashboard-header">
         <div>
           <h1 className="page-title">Analytics Dashboard</h1>
@@ -73,7 +68,7 @@ const ManagerDashboard = () => {
         </div>
       </header>
 
-      {/* 4. Multi-column Scorecards */}
+     
       <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
         <div className="stat-card">
           <span className="stat-label">Total Volume</span>
@@ -107,9 +102,9 @@ const ManagerDashboard = () => {
         </div>
       </div>
 
-      {/* 5. Main Content: Triage and Capacity */}
+     
       <div className="manager-grid">
-        {/* Left: Triage Oversight (Table of unassigned tickets) */}
+       
         <div className="card">
           <div className="card-header">
             <div className="flex items-center gap-2">
@@ -172,7 +167,7 @@ const ManagerDashboard = () => {
                     </tr>
                   ))
                 ) : (
-                  /* Empty Queue Placeholder */
+                
                   <tr>
                     <td colSpan="5" className="empty-state-container">
                       <div className="flex flex-col items-center gap-3">
@@ -187,7 +182,7 @@ const ManagerDashboard = () => {
           </div>
         </div>
 
-        {/* Right: Agent Capacity and Insights */}
+      
         <div className="flex flex-col gap-6">
           <div className="card">
             <div className="card-header">
@@ -207,7 +202,7 @@ const ManagerDashboard = () => {
                       <span className="table-subject-main">{member}</span>
                       <span className="table-category-small text-primary">{memberTickets.length}/10 Tickets</span>
                     </div>
-                    {/* Progress feedback for workload */}
+                
                     <div className="progress-container">
                       <div
                         className="progress-fill"
@@ -223,7 +218,7 @@ const ManagerDashboard = () => {
             </div>
           </div>
 
-          {/* AI/Manager Insight Highlight box */}
+       
           <div className="insight-card">
             <div className="insight-header">
               <div className="insight-icon-bg">
