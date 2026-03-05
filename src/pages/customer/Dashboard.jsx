@@ -2,180 +2,159 @@ import React, { useState } from 'react';
 import { useTickets } from '../../context/TicketContext';
 import { useAuth } from '../../context/AuthContext';
 import { motion } from 'framer-motion';
-import { Search, Filter, Eye, CheckCircle2, Inbox, AlertCircle } from 'lucide-react';
+import {
+  Search,
+  PlusCircle,
+  ClipboardList,
+  BookOpen,
+  HelpCircle,
+  Settings,
+  Wallet,
+  ShieldCheck,
+  ChevronRight
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-/**
- * CustomerDashboard: The main landing page for customers.
- * Shows personal ticket statistics and a searchable table of tickets.
- */
 const CustomerDashboard = () => {
-  // 1. Context and State Hooks
-  const { tickets } = useTickets(); // Get global tickets list
-  const { user } = useAuth(); // Get current logged in user
-  const [searchTerm, setSearchTerm] = useState(''); // State for search input
-  const [filterStatus, setFilterStatus] = useState('All'); // State for status filter
+  const { tickets } = useTickets();
+  const { user } = useAuth();
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // 2. Data Filtering Logic
-  // First, only get tickets that belong to the current customer
-  const customerTickets = tickets.filter(t => t.customer === user?.name);
+  // Mock KB Data
+  const kbCategories = [
+    {
+      title: 'Login & Account',
+      icon: <ShieldCheck size={24} />,
+      links: ['Password Reset Guide', 'Changing Account Details', 'Security Best Practices']
+    },
+    {
+      title: 'Payments & Billing',
+      icon: <Wallet size={24} />,
+      links: ['Accepted Payment Methods', 'Understanding Invoices', 'Refund Policy']
+    },
+    {
+      title: 'Product Guides',
+      icon: <BookOpen size={24} />,
+      links: ['Getting Started Manual', 'Keyboard Shortcuts', 'API Documentation']
+    },
+    {
+      title: 'Troubleshooting',
+      icon: <Settings size={24} />,
+      links: ['Common Error Codes', 'Browser Compatibility', 'Slow Performance Fixes']
+    }
+  ];
 
-  // Second, apply search and status filters to that subset
-  const filteredTickets = customerTickets.filter(ticket => {
-    const matchesSearch = ticket.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterStatus === 'All' || ticket.status === filterStatus;
-    return matchesSearch && matchesFilter;
-  });
-
-  // Calculate quick stats for the dashboard header
-  const stats = {
-    total: customerTickets.length,
-    open: customerTickets.filter(t => t.status === 'Open' || t.status === 'In Progress').length,
-    resolved: customerTickets.filter(t => t.status === 'Resolved' || t.status === 'Closed').length
-  };
+  const recentTickets = tickets
+    .filter(t => t.customer === user?.name)
+    .slice(0, 3); // Just show the 3 most recent
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
       className="content-inner"
     >
-      {/* 3. Dashboard Header */}
-      <header className="dashboard-header">
-        <div>
-          <h1 className="page-title">Ticket Overview</h1>
-          <p className="page-subtitle">Track and manage your support conversations</p>
+      {/* 1. Hero / Search Section */}
+      <section className="portal-hero">
+        <h1 className="portal-hero-title">How can we help you today?</h1>
+        <div className="portal-search-wrapper">
+          <Search className="portal-search-icon" size={20} />
+          <input
+            type="text"
+            className="portal-search-input"
+            placeholder="Search for articles, solutions or tickets..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-      </header>
+      </section>
 
-      {/* 4. Statistics Calculation Cards */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="flex justify-between items-start mb-2">
-            <span className="stat-label">Total Requests</span>
-            <Inbox size={16} className="stat-icon-primary" />
+      {/* 2. Primary Action Cards */}
+      <div className="portal-actions-grid">
+        <Link to="#" className="portal-action-card">
+          <div className="portal-action-icon">
+            <PlusCircle size={32} />
           </div>
-          <span className="stat-value">{stats.total}</span>
-        </div>
-        <div className="stat-card stat-card-open">
-          <div className="flex justify-between items-start mb-2">
-            <span className="stat-label">Unresolved</span>
-            <AlertCircle size={16} className="text-status-open" />
+          <div className="portal-action-text">
+            <h3>New Support Ticket</h3>
+            <p>Raise a new request with our agents</p>
           </div>
-          <span className="stat-value">{stats.open}</span>
-        </div>
-        <div className="stat-card stat-card-resolved">
-          <div className="flex justify-between items-start mb-2">
-            <span className="stat-label">Resolved</span>
-            <CheckCircle2 size={16} className="text-status-resolved" />
+        </Link>
+        <Link to="#" className="portal-action-card">
+          <div className="portal-action-icon">
+            <ClipboardList size={32} />
           </div>
-          <span className="stat-value">{stats.resolved}</span>
-        </div>
+          <div className="portal-action-text">
+            <h3>Check Ticket Status</h3>
+            <p>View your active support conversations</p>
+          </div>
+        </Link>
       </div>
 
-      {/* 5. Main Ticket List Card */}
-      <div className="card">
-        {/* Table Filters Header */}
-        <div className="card-header">
-          <div className="flex items-center gap-4">
-            {/* Search Input Box */}
-            <div className="search-wrapper">
-              <Search size={14} className="search-icon-inside" />
-              <input
-                type="text"
-                className="input-field search-input-small"
-                placeholder="Search tickets..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            {/* Status Dropdown Filter */}
-            <div className="flex items-center gap-2">
-              <span className="filter-label">Status:</span>
-              <select
-                className="input-field select-small"
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-              >
-                <option value="All">All Statuses</option>
-                <option value="Open">Open</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Resolved">Resolved</option>
-                <option value="Closed">Closed</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <button type="button" className="btn btn-secondary btn-small-height">
-              <Filter size={14} />
-              <span>More Filters</span>
-            </button>
-          </div>
-        </div>
+      {/* 3. Knowledge Base Section */}
+      <div className="portal-section-header">
+        <h2 className="page-title">Browse Knowledge Base</h2>
+        <button className="btn btn-secondary btn-small-height">View All Articles</button>
+      </div>
 
-        {/* 6. Tickets Data Table */}
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th style={{ width: '80px' }}>ID</th>
-                <th>Subject</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th className="table-actions-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTickets.length > 0 ? (
-                filteredTickets.map((ticket) => (
+      <div className="kb-categories-grid mb-6">
+        {kbCategories.map((cat, idx) => (
+          <div key={idx} className="kb-card">
+            <div className="kb-card-icon">{cat.icon}</div>
+            <strong className="kb-card-title">{cat.title}</strong>
+            <ul className="kb-card-links">
+              {cat.links.map((link, lIdx) => (
+                <li key={lIdx}>
+                  <Link to="#" className="kb-card-link">{link}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      {/* 4. Recent Activity / Ticket Feed */}
+      {recentTickets.length > 0 && (
+        <div className="card mt-6">
+          <div className="card-header">
+            <div className="flex items-center gap-2">
+              <ClipboardList size={18} className="text-primary" />
+              <h2 className="font-bold">My Recent Support Activity</h2>
+            </div>
+            <Link to="#" className="table-subject-link text-xs">View Full History</Link>
+          </div>
+          <div className="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ticket ID</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentTickets.map(ticket => (
                   <tr key={ticket.id}>
                     <td className="table-id-cell">#{ticket.id}</td>
-                    <td>
-                      <span className="table-subject-link">
-                        {ticket.subject}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="table-text-muted">{ticket.category}</span>
-                    </td>
+                    <td><span className="table-subject-link">{ticket.subject}</span></td>
                     <td>
                       <span className={`badge badge-${ticket.status.toLowerCase().replace(' ', '-')}`}>
                         {ticket.status}
                       </span>
                     </td>
-                    <td>
-                      <span className={`priority-${ticket.priority.toLowerCase()}`}>
-                        {ticket.priority}
-                      </span>
-                    </td>
-                    <td className="table-actions-right">
-                      <button className="btn btn-secondary btn-xsmall" disabled>
-                        <Eye size={14} />
-                        <span>View</span>
-                      </button>
-                    </td>
+                    <td className="text-muted text-xs">Recently</td>
                   </tr>
-                ))
-              ) : (
-                /* Empty state when no tickets match filters */
-                <tr>
-                  <td colSpan="6" className="empty-state-container">
-                    <div className="flex flex-col items-center gap-3">
-                      <Inbox size={48} style={{ opacity: 0.2 }} />
-                      <p>No tickets found matching your criteria.</p>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </motion.div>
   );
 };
 
 export default CustomerDashboard;
+
 

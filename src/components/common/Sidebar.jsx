@@ -3,50 +3,33 @@ import { NavLink } from 'react-router-dom';
 import {
     LayoutDashboard,
     LogOut,
-    BarChart3,
     HelpCircle
 } from 'lucide-react';
+
 import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
-    const { user, logout } = useAuth();
+    const { logout, user } = useAuth();
 
-    const menuItems = {
-        customer: [
-            { path: '/customer/dashboard', icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
-        ],
-        support: [
-            { path: '/support/dashboard', icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
-        ],
-        manager: [
-            { path: '/manager/dashboard', icon: <BarChart3 size={18} />, label: 'Dashboard' },
-        ]
-    };
+    let dashboardPath = '/customer/dashboard';
+    if (user?.role === 'manager') dashboardPath = '/manager/dashboard';
+    if (user?.role === 'support') dashboardPath = '/support/dashboard';
 
-    const items = menuItems[user?.role] || [];
+    const menuItems = [
+        { path: dashboardPath, icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
+    ];
 
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
-                <div style={{
-                    width: '32px',
-                    height: '32px',
-                    backgroundColor: 'var(--primary)',
-                    borderRadius: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontWeight: 900,
-                    fontSize: '14px'
-                }}>
+                <div className="sidebar-logo-icon">
                     SD
                 </div>
                 <span>SupportDesk</span>
             </div>
 
             <nav className="sidebar-nav">
-                {items.map((item) => (
+                {menuItems.map((item) => (
                     <NavLink
                         key={item.path}
                         to={item.path}
@@ -58,43 +41,19 @@ const Sidebar = () => {
                 ))}
             </nav>
 
-            <div style={{ padding: '0 16px 16px' }}>
-                <div style={{
-                    backgroundColor: 'rgba(255,255,255,0.05)',
-                    borderRadius: '8px',
-                    padding: '12px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                }}>
-                    <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', fontWeight: 800 }}>Help & Resources</p>
-                    <a href="#" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <HelpCircle size={14} />
-                        Knowledge Base
-                    </a>
-                </div>
+
+            <div className="sidebar-help-card">
+                <p className="sidebar-help-label">Help & Resources</p>
+                <a href="#" className="sidebar-help-link">
+                    <HelpCircle size={14} />
+                    Knowledge Base
+                </a>
             </div>
 
-            <div style={{ padding: '16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <div className="sidebar-footer">
                 <button
                     onClick={logout}
-                    style={{
-                        width: '100%',
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        color: 'rgba(255,255,255,0.6)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px',
-                        padding: '10px 8px',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        borderRadius: '4px',
-                        transition: 'background 0.2s'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(235, 87, 87, 0.1)'}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                    className="sidebar-logout-btn"
                 >
                     <LogOut size={18} />
                     <span>Sign Out</span>
@@ -103,5 +62,6 @@ const Sidebar = () => {
         </aside>
     );
 };
+
 
 export default Sidebar;

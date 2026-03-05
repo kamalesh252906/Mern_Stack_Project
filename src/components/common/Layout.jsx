@@ -9,10 +9,6 @@ const Layout = () => {
       <Sidebar />
       <main className="main-content">
         <Navbar />
-        {/* 
-                    The 'content-inner' class is now applied inside individual pages 
-                    to allow for custom page transitions and specific layout control.
-                */}
         <Outlet />
       </main>
     </div>

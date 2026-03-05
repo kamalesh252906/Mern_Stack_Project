@@ -1,69 +1,74 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-// Context Providers: These allow data to be shared across the entire app.
+// Context Providers
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { TicketProvider } from './context/TicketContext';
 
-// Layout: A common wrapper that includes things like the Sidebar and Navbar.
+// Layout
 import Layout from './components/common/Layout';
 
-// Pages: The different screens of our application.
+// Pages
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import CustomerDashboard from './pages/customer/Dashboard';
-import SupportDashboard from './pages/support/Dashboard';
 import ManagerDashboard from './pages/manager/Dashboard';
+import SupportDashboard from './pages/support/Dashboard';
 
 /**
- * Route protection: This helper checks if the user is authorized for a page.
- * If not, it redirects them safely.
+ * Route protection: Redirects to login if not authenticated.
  */
-const PrivateRoute = ({ children, role }) => {
+const PrivateRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useAuth();
 
-  // Show a loading screen while we verify authentication.
   if (loading) return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="loading-container">
       <div className="loading-spinner"></div>
-      <h2 className="ml-4 font-bold">Checking access...</h2>
+      <h2>Checking access...</h2>
     </div>
   );
 
-  // Redirect to login if not authenticated at all.
   if (!user) return <Navigate to="/login" />;
 
-  // Enforce role-based access if specified.
-  if (role && user.role !== role) {
-    // Redirect to their own dashboard if they have the wrong role for this path
-    if (user.role === 'customer') return <Navigate to="/customer/dashboard" />;
-    if (user.role === 'support') return <Navigate to="/support/dashboard" />;
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
     if (user.role === 'manager') return <Navigate to="/manager/dashboard" />;
-    return <Navigate to="/login" />;
+    if (user.role === 'support') return <Navigate to="/support/dashboard" />;
+    return <Navigate to="/customer/dashboard" />;
   }
 
   return children;
 };
 
-/**
- * App: The Root Component.
- * This is where we define the overall application structure and navigation.
- */
+const RootRedirect = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) return (
+    <div className="loading-container">
+      <div className="loading-spinner"></div>
+      <h2>Loading...</h2>
+    </div>
+  );
+
+  if (!user) return <Navigate to="/login" />;
+
+  if (user.role === 'manager') return <Navigate to="/manager/dashboard" />;
+  if (user.role === 'support') return <Navigate to="/support/dashboard" />;
+  return <Navigate to="/customer/dashboard" />;
+};
+
 function App() {
   return (
-    /* We use Providers to share state globally across all pages. */
     <AuthProvider>
       <TicketProvider>
-        {/* React Router handles the URL logic. */}
         <BrowserRouter>
           <Routes>
-            {/* 1. Public Entry Points */}
+            {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
-            {/* 2. Customer Routes - Protected by role check */}
+            {/* Customer Routes - Main App Area */}
             <Route path="/customer" element={
-              <PrivateRoute role="customer">
+              <PrivateRoute allowedRoles={['customer']}>
                 <Layout />
               </PrivateRoute>
             }>
@@ -71,19 +76,9 @@ function App() {
               <Route index element={<Navigate to="dashboard" />} />
             </Route>
 
-            {/* 3. Support Team Operations */}
-            <Route path="/support" element={
-              <PrivateRoute role="support">
-                <Layout />
-              </PrivateRoute>
-            }>
-              <Route path="dashboard" element={<SupportDashboard />} />
-              <Route index element={<Navigate to="dashboard" />} />
-            </Route>
-
-            {/* 4. Manager Oversight and Analytics */}
+            {/* Manager Routes */}
             <Route path="/manager" element={
-              <PrivateRoute role="manager">
+              <PrivateRoute allowedRoles={['manager']}>
                 <Layout />
               </PrivateRoute>
             }>
@@ -91,8 +86,19 @@ function App() {
               <Route index element={<Navigate to="dashboard" />} />
             </Route>
 
-            {/* 5. Catch-all: Send any direct root access to Login */}
-            <Route path="/" element={<Navigate to="/login" />} />
+            {/* Support Routes */}
+            <Route path="/support" element={
+              <PrivateRoute allowedRoles={['support']}>
+                <Layout />
+              </PrivateRoute>
+            }>
+              <Route path="dashboard" element={<SupportDashboard />} />
+              <Route index element={<Navigate to="dashboard" />} />
+            </Route>
+
+            {/* Catch-all: Send to Login or Dashboard */}
+            <Route path="/" element={<RootRedirect />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
       </TicketProvider>
@@ -101,5 +107,3 @@ function App() {
 }
 
 export default App;
-
-
