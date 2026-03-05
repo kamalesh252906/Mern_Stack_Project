@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 /**
  * 1. Create a Context object.
@@ -6,6 +6,7 @@ import React, { createContext, useContext, useState } from 'react';
  */
 const TicketContext = createContext();
 
+<<<<<<< HEAD
 /**
  * 2. Create the Provider component.
  * This component "provides" the state to all child components.
@@ -66,6 +67,21 @@ export const TicketProvider = ({ children }) => {
 
         // Update the state by adding the new ticket to the front of the list
         setTickets([newTicket, ...tickets]);
+=======
+export const TicketProvider = ({ children }) => {
+    const [tickets, setTickets] = useState([]);
+
+    // Initialize with dummy dat
+    useEffect(() => {
+        setTickets([
+            { id: '1001', subject: 'System downtime', customer: 'Customer User', category: 'Support', status: 'Open', priority: 'High' },
+            { id: '1002', subject: 'Inquiry about pricing', customer: 'Customer User', category: 'Sales', status: 'Resolved', priority: 'Medium' },
+        ]);
+    }, []);
+
+    const addTicket = (ticket) => {
+        setTickets([...tickets, { id: (Date.now() % 10000).toString(), ...ticket }]);
+>>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
     };
 
     /**
@@ -85,6 +101,7 @@ export const TicketProvider = ({ children }) => {
         setTickets(updatedTicketsList);
     };
 
+<<<<<<< HEAD
     /**
      * Function to assign a ticket to a support person.
      */
@@ -123,11 +140,16 @@ export const TicketProvider = ({ children }) => {
     // We pass all our data and functions into the "value" prop.
     return (
         <TicketContext.Provider value={{ tickets, addTicket, updateTicketStatus, assignTicket, addComment }}>
+=======
+    return (
+        <TicketContext.Provider value={{ tickets, addTicket, updateTicketStatus }}>
+>>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
             {children}
         </TicketContext.Provider>
     );
 };
 
+<<<<<<< HEAD
 /**
  * 3. Create a custom hook for easy access to the Context.
  * Instead of importing 'useContext' and 'TicketContext' everywhere, 
@@ -144,3 +166,12 @@ export const useTickets = () => {
     return contextValue;
 };
 
+=======
+export const useTickets = () => {
+    const context = useContext(TicketContext);
+    if (!context) {
+        throw new Error('useTickets must be used within a TicketProvider');
+    }
+    return context;
+};
+>>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
