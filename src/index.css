@@ -143,6 +143,152 @@ body {
   background: #fcfdfe;
 }
 
+/* Freshdesk Portal Specifics */
+.portal-hero {
+  background: linear-gradient(135deg, var(--secondary) 0%, #081a27 100%);
+  padding: 60px 40px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 32px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-hero-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.portal-search-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.portal-search-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 24px 0 56px;
+  background: white;
+  border: none;
+  border-radius: 26px;
+  font-size: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.portal-search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.portal-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.portal-action-card {
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.portal-action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.portal-action-icon {
+  width: 56px;
+  height: 56px;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal-action-text h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.portal-action-text p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.portal-section-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kb-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.kb-card {
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.kb-card:hover {
+  border-color: var(--primary);
+}
+
+.kb-card-icon {
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.kb-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.kb-card-links {
+  list-style: none;
+  padding: 0;
+}
+
+.kb-card-link {
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.kb-card-link:hover {
+  text-decoration: underline;
+}
+
 /* Buttons (Freshdesk Style) */
 .btn {
   height: 36px;
@@ -336,6 +482,71 @@ tr:hover td {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.sidebar-logo-icon {
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.sidebar-help-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 16px 16px;
+}
+
+.sidebar-help-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.sidebar-help-link {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-logout-btn {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.sidebar-logout-btn:hover {
+  background-color: rgba(235, 87, 87, 0.1);
+  color: #eb5757;
+}
+
 .sidebar-nav {
   padding: 24px 0;
   flex: 1;
@@ -374,20 +585,40 @@ tr:hover td {
   flex-direction: column;
 }
 
-.items-center {
-  align-items: center;
+.items-start {
+  align-items: flex-start;
 }
 
-.justify-between {
-  justify-content: space-between;
+.justify-center {
+  justify-content: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.gap-1 {
+  gap: 4px;
 }
 
 .gap-2 {
   gap: 8px;
 }
 
+.gap-3 {
+  gap: 12px;
+}
+
 .gap-4 {
   gap: 16px;
+}
+
+.gap-6 {
+  gap: 24px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
 }
 
 .mb-4 {
@@ -402,12 +633,48 @@ tr:hover td {
   font-size: 12px;
 }
 
+.text-light {
+  color: var(--text-light);
+}
+
+.text-status-open {
+  color: var(--status-open);
+}
+
+.text-status-resolved {
+  color: var(--status-resolved);
+}
+
 .font-bold {
   font-weight: 700;
 }
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: 4px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.mt-6 {
+  margin-top: 24px;
+}
+
+.mt-8 {
+  margin-top: 32px;
 }
 
 /* Custom Scrollbar */
@@ -1077,176 +1344,8 @@ tr:hover td {
   font-weight: 600;
 }
 
-/* --- Support Dashboard Styles --- */
-.view-mode-btn {
-  background: none;
-  border: none;
-  color: var(--primary);
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
 
-.stat-card-queue {
-  border-top: 3px solid var(--primary);
-}
-
-.stat-card-needs-assignee {
-  border-top: 3px solid var(--status-open);
-}
-
-.stat-card-my-open {
-  border-top: 3px solid var(--status-resolved);
-}
-
-.stat-card-urgent-sla {
-  border-top: 3px solid var(--danger);
-}
-
-.search-wrapper-large {
-  position: relative;
-  width: 320px;
-}
-
-.search-input-full {
-  padding-left: 34px !important;
-  height: 32px !important;
-}
-
-.ticket-found-text {
-  color: var(--text-light);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.customer-avatar-small {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-  background-color: var(--border-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.table-ticket-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.table-category-small {
-  font-size: 11px;
-  color: var(--text-light);
-  margin-top: 2px;
-  font-weight: 600;
-}
-
-.table-customer-name {
-  font-weight: 600;
-  font-size: 13px;
-}
-
-/* --- Manager Dashboard Styles --- */
-.manager-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 24px;
-}
-
-.stat-trend-up {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--success);
-}
-
-.stat-subtext {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-light);
-}
-
-.card-title-uppercase {
-  font-size: 14px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.badge-pending {
-  border-radius: 12px;
-  padding: 4px 12px;
-}
-
-.table-subject-main {
-  font-weight: 700;
-  font-size: 13px;
-}
-
-.table-customer-sub {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-light);
-  margin-top: 2px;
-}
-
-.select-xsmall {
-  height: 30px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  width: 140px !important;
-}
-
-.progress-container {
-  height: 6px;
-  width: 100%;
-  background-color: var(--border-light);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  transition: width 0.8s ease-out;
-}
-
-.insight-card {
-  background-color: var(--primary);
-  border: none;
-  padding: 24px;
-  color: white;
-}
-
-.insight-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.insight-icon-bg {
-  padding: 8px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-}
-
-.insight-label {
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.insight-text {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.6;
-  opacity: 0.9;
-}
+/* --- Utility Animations --- */
 
 @keyframes spin {
   from {

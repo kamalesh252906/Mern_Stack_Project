@@ -1,55 +1,37 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const TicketContext = createContext();
 
-export const useTickets = () => useContext(TicketContext);
-
 export const TicketProvider = ({ children }) => {
-    const [tickets, setTickets] = useState([
-        {
-            id: "TK-1001",
-            subject: "Login issue with Chrome",
-            category: "Technical",
-            status: "Open",
-            priority: "High",
-            customer: "John Doe",
-            date: "2024-03-01"
-        },
-        {
-            id: "TK-1002",
-            subject: "Password reset not working",
-            category: "Account",
-            status: "In Progress",
-            priority: "Medium",
-            customer: "Jane Smith",
-            date: "2024-03-02"
-        },
-        {
-            id: "TK-1003",
-            subject: "Feature request: Dark mode",
-            category: "Product",
-            status: "Resolved",
-            priority: "Low",
-            customer: "John Doe",
-            date: "2024-03-03"
-        }
-    ]);
+    const [tickets, setTickets] = useState([]);
+
+    // Initialize with dummy dat
+    useEffect(() => {
+        setTickets([
+            { id: '1001', subject: 'System downtime', customer: 'Customer User', category: 'Support', status: 'Open', priority: 'High' },
+            { id: '1002', subject: 'Inquiry about pricing', customer: 'Customer User', category: 'Sales', status: 'Resolved', priority: 'Medium' },
+        ]);
+    }, []);
 
     const addTicket = (ticket) => {
-        setTickets([...tickets, { ...ticket, id: `TK-${Date.now()}` }]);
+        setTickets([...tickets, { id: (Date.now() % 10000).toString(), ...ticket }]);
     };
 
     const updateTicketStatus = (id, status) => {
         setTickets(tickets.map(t => t.id === id ? { ...t, status } : t));
     };
 
-    const assignTicket = (id, agentName) => {
-        setTickets(tickets.map(t => t.id === id ? { ...t, assignedTo: agentName } : t));
-    };
-
     return (
-        <TicketContext.Provider value={{ tickets, addTicket, updateTicketStatus, assignTicket }}>
+        <TicketContext.Provider value={{ tickets, addTicket, updateTicketStatus }}>
             {children}
         </TicketContext.Provider>
     );
+};
+
+export const useTickets = () => {
+    const context = useContext(TicketContext);
+    if (!context) {
+        throw new Error('useTickets must be used within a TicketProvider');
+    }
+    return context;
 };

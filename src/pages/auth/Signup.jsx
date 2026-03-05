@@ -1,195 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Mail, Lock, Loader2, ChevronRight, Github, User, ShieldCheck, Sparkles, CheckCircle, Globe } from 'lucide-react';
-import { motion } from 'framer-motion';
-
-
+import { useNavigate, Link } from 'react-router-dom';
+import { User, Mail, Lock, Sparkles, CheckCircle2, UserPlus } from 'lucide-react';
 
 const Signup = () => {
-  
-  const [name, setName] = useState('');           
-  const [email, setEmail] = useState('');        
-  const [password, setPassword] = useState('');   
-  const [loading, setLoading] = useState(false);  
+    const { signup } = useAuth();
+    const navigate = useNavigate();
+    const [user, setUser] = useState({ name: '', email: '', password: '' });
 
+    const handleSignup = (e) => {
+        e.preventDefault();
+        signup(user.email, user.password, user.name, 'customer');
+        navigate('/');
+    };
 
-  const { signup, user: currentUser } = useAuth();
-  const navigate = useNavigate();
+    return (
+        <div className="login-wrapper">
+            <div className="bg-blob blob-1"></div>
+            <div className="bg-blob blob-2"></div>
+            <div className="bg-blob blob-3"></div>
 
+            <main className="login-card">
+                <section className="login-hero">
+                    <div className="hero-overlay"></div>
+                    <div className="hero-content">
+                        <div className="brand-identity">
+                            <div className="logo-crystal">
+                                <Sparkles className="sparkle-icon" size={24} />
+                            </div>
+                            <span className="brand-name">SupportDesk</span>
+                        </div>
 
-  useEffect(() => {
-    if (currentUser) {
-      if (currentUser.role === 'customer') navigate('/customer/dashboard');
-      else if (currentUser.role === 'support') navigate('/support/dashboard');
-      else if (currentUser.role === 'manager') navigate('/manager/dashboard');
-    }
-  }, [currentUser, navigate]);
+                        <div className="hero-main-text">
+                            <h2>Join the <span className="gradient-text">Future</span> of Support.</h2>
+                            <p>Get started today and experience the next generation of helpdesk management.</p>
+                        </div>
 
+                        <div className="benefit-list">
+                            <div className="benefit-item">
+                                <CheckCircle2 size={18} />
+                                <span>Free For Small Teams</span>
+                            </div>
+                            <div className="benefit-item">
+                                <CheckCircle2 size={18} />
+                                <span>Unlimited Customers</span>
+                            </div>
+                            <div className="benefit-item">
+                                <CheckCircle2 size={18} />
+                                <span>24/7 Priority Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+                <section className="login-form-container">
+                    <div className="form-inner">
+                        <header className="form-header">
+                            <h1>Create Account</h1>
+                            <p>Join thousands of teams growing with SupportDesk</p>
+                        </header>
 
-  
-    setTimeout(() => {
-      const user = signup(name, email, password);
-      setLoading(false);
+                        <form className="auth-form" onSubmit={handleSignup}>
+                            <div className="input-group">
+                                <label>Full Name</label>
+                                <div className="input-with-icon">
+                                    <User className="field-icon" size={18} />
+                                    <input
+                                        type="text"
+                                        placeholder="John Doe"
+                                        required
+                                        value={user.name}
+                                        onChange={(e) => setUser({ ...user, name: e.target.value })}
+                                    />
+                                </div>
+                            </div>
 
-      if (user.role === 'customer') navigate('/customer/dashboard');
-      else if (user.role === 'support') navigate('/support/dashboard');
-      else if (user.role === 'manager') navigate('/manager/dashboard');
-    }, 1200);
-  };
+                            <div className="input-group">
+                                <label>Email Address</label>
+                                <div className="input-with-icon">
+                                    <Mail className="field-icon" size={18} />
+                                    <input
+                                        type="email"
+                                        placeholder="name@company.com"
+                                        required
+                                        value={user.email}
+                                        onChange={(e) => setUser({ ...user, email: e.target.value })}
+                                    />
+                                </div>
+                            </div>
 
-  return (
-    <div className="login-wrapper">
-      <div className="bg-blob blob-1"></div>
-      <div className="bg-blob blob-2"></div>
-      <div className="bg-blob blob-3"></div>
+                            <div className="input-group">
+                                <label>Password</label>
+                                <div className="input-with-icon">
+                                    <Lock className="field-icon" size={18} />
+                                    <input
+                                        type="password"
+                                        placeholder="Create a strong password"
+                                        required
+                                        value={user.password}
+                                        onChange={(e) => setUser({ ...user, password: e.target.value })}
+                                    />
+                                </div>
+                            </div>
 
-      <main className="login-card">
-        <div className="login-hero">
-          <div className="hero-overlay"></div>
-          <div className="hero-content">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="brand-identity"
-            >
-              <div className="logo-crystal">
-                <Sparkles size={24} className="sparkle-icon" />
-              </div>
-              <span className="brand-name">SupportDesk</span>
-            </motion.div>
+                            <button type="submit" className="submit-btn" disabled={!user.name || !user.email || !user.password}>
+                                <span>Create My Account</span>
+                                <UserPlus size={18} />
+                            </button>
+                        </form>
 
-            <div className="hero-main-text">
-              <motion.h2
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                Join the <br />
-                <span className="gradient-text">Customer Revolution</span>
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                The world's most intuitive support platform. Designed for teams who obsess over customer happiness.
-              </motion.p>
-            </div>
-
-            <div className="benefit-list">
-              {[
-                { icon: <CheckCircle size={16} />, text: "Real-time AI Insights" },
-                { icon: <Globe size={16} />, text: "Global Multi-channel Support" },
-                { icon: <ShieldCheck size={16} />, text: "Enterprise Grade Security" }
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + (i * 0.1) }}
-                  className="benefit-item"
-                >
-                  {item.icon}
-                  <span>{item.text}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                        <div className="toggle-auth">
+                            <span>Already have an account?</span>
+                            <Link to="/login">
+                                <button type="button">Sign In</button>
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+            </main>
         </div>
-
-        <div className="login-form-container">
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="form-inner"
-          >
-            <div className="form-header">
-              <h1>Create Account</h1>
-              <p>Please enter your details to continue</p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="input-group">
-                <label>Full Name</label>
-                <div className="input-with-icon">
-                  <User size={18} className="field-icon" />
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="input-group">
-                <label>Email Address</label>
-                <div className="input-with-icon">
-                  <Mail size={18} className="field-icon" />
-                  <input
-                    type="email"
-                    placeholder="name@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="input-group">
-                <label>Password</label>
-                <div className="input-with-icon">
-                  <Lock size={18} className="field-icon" />
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-
-              <button type="submit" className="submit-btn" disabled={loading}>
-                {loading ? (
-                  <Loader2 size={20} className="spinner" />
-                ) : (
-                  <>
-                    <span>Start Free Trial</span>
-                    <ChevronRight size={18} />
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div className="social-login">
-              <div className="or-divider">
-                <span>OR CONTINUE WITH</span>
-              </div>
-              <div className="social-btns">
-                <button className="social-btn"><Github size={20} /> Github</button>
-                <button className="social-btn"><ShieldCheck size={20} /> SSO</button>
-              </div>
-            </div>
-
-            <p className="toggle-auth">
-              Already have an account?
-              <Link to="/login">
-                Login here
-              </Link>
-            </p>
-          </motion.div>
-        </div>
-      </main>
-    </div>
-  );
+    );
 };
 
 export default Signup;
+
