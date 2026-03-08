@@ -1234,6 +1234,65 @@ tr:hover td {
   }
 }
 
+/* --- Simple Login Layout --- */
+.simple-login {
+  background-color: #f3f5f7;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.centers-card {
+  max-width: 480px !important;
+  min-height: auto !important;
+  display: block !important;
+  border-radius: 8px !important;
+  padding: 48px !important;
+  box-shadow: 0 4px 30px rgba(18, 52, 77, 0.08) !important;
+}
+
+.centered-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.centered-brand {
+  justify-content: center;
+  margin-bottom: 24px !important;
+}
+
+.small-logo {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+}
+
+.login-footer {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.login-footer p {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
 /* --- Dashboard Specific Styles --- */
 .dashboard-header {
   display: flex;

@@ -9,7 +9,6 @@ import {
 import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
-<<<<<<< HEAD
     const { logout, user } = useAuth();
 
     let dashboardPath = '/customer/dashboard';
@@ -18,12 +17,6 @@ const Sidebar = () => {
 
     const menuItems = [
         { path: dashboardPath, icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
-=======
-    const { logout } = useAuth();
-
-    const menuItems = [
-        { path: '/customer/dashboard', icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
     ];
 
     return (

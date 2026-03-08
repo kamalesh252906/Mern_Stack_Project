@@ -6,17 +6,13 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
  */
 const AuthContext = createContext();
 
-<<<<<<< HEAD
 /**
  * 2. Create the AuthProvider component.
  */
-=======
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
 export const AuthProvider = ({ children }) => {
   // 'user' will be null if nobody is logged in, or an object if they are.
   const [user, setUser] = useState(null);
 
-<<<<<<< HEAD
   // 'loading' helps us wait for the browser to check if a user was already logged in.
   const [loading, setLoading] = useState(true);
 
@@ -70,34 +66,6 @@ export const AuthProvider = ({ children }) => {
       role: 'customer', // New users always start as customers.
       token: 'mock-jwt-token',
       name: name
-=======
-    // Load user from local storage on mount
-    useEffect(() => {
-        const savedUser = localStorage.getItem('user');
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
-        }
-        setLoading(false);
-    }, []);
-
-    const login = (email, password) => {
-        // Basic simulation of login - all roles are customers for this version
-        const newUser = {
-            email,
-            name: email.split('@')[0],
-            role: 'customer'
-        };
-        setUser(newUser);
-        localStorage.setItem('user', JSON.stringify(newUser));
-        return true;
-    };
-
-    const signup = (email, password, name) => {
-        const newUser = { email, name, role: 'customer' };
-        setUser(newUser);
-        localStorage.setItem('user', JSON.stringify(newUser));
-        return true;
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
     };
 
     localStorage.setItem('user', JSON.stringify(userData));
@@ -124,7 +92,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-<<<<<<< HEAD
 /**
  * 3. Simplify access with a custom 'useAuth' hook.
  */
@@ -135,13 +102,3 @@ export const useAuth = () => {
   }
   return context;
 };
-
-=======
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
-};
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086

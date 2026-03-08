@@ -12,20 +12,13 @@ import Layout from './components/common/Layout';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import CustomerDashboard from './pages/customer/Dashboard';
-<<<<<<< HEAD
 import ManagerDashboard from './pages/manager/Dashboard';
 import SupportDashboard from './pages/support/Dashboard';
-=======
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
 
 /**
  * Route protection: Redirects to login if not authenticated.
  */
-<<<<<<< HEAD
 const PrivateRoute = ({ children, allowedRoles }) => {
-=======
-const PrivateRoute = ({ children }) => {
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
   const { user, loading } = useAuth();
 
   if (loading) return (
@@ -37,7 +30,6 @@ const PrivateRoute = ({ children }) => {
 
   if (!user) return <Navigate to="/login" />;
 
-<<<<<<< HEAD
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     if (user.role === 'manager') return <Navigate to="/manager/dashboard" />;
     if (user.role === 'support') return <Navigate to="/support/dashboard" />;
@@ -64,11 +56,6 @@ const RootRedirect = () => {
   return <Navigate to="/customer/dashboard" />;
 };
 
-=======
-  return children;
-};
-
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
 function App() {
   return (
     <AuthProvider>
@@ -81,11 +68,7 @@ function App() {
 
             {/* Customer Routes - Main App Area */}
             <Route path="/customer" element={
-<<<<<<< HEAD
               <PrivateRoute allowedRoles={['customer']}>
-=======
-              <PrivateRoute>
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
                 <Layout />
               </PrivateRoute>
             }>
@@ -93,7 +76,6 @@ function App() {
               <Route index element={<Navigate to="dashboard" />} />
             </Route>
 
-<<<<<<< HEAD
             {/* Manager Routes */}
             <Route path="/manager" element={
               <PrivateRoute allowedRoles={['manager']}>
@@ -116,10 +98,6 @@ function App() {
 
             {/* Catch-all: Send to Login or Dashboard */}
             <Route path="/" element={<RootRedirect />} />
-=======
-            {/* Catch-all: Send to Login or Dashboard */}
-            <Route path="/" element={<Navigate to="/customer/dashboard" />} />
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
@@ -129,9 +107,3 @@ function App() {
 }
 
 export default App;
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> a871b3c86d545d04a745a8f39da3ffe50c224086

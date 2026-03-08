@@ -15,11 +15,11 @@ import {
 
 
 const ManagerDashboard = () => {
- 
-  const { tickets, assignTicket } = useTickets();
-  const [selectedSupport, setSelectedSupport] = useState({}); 
 
- 
+  const { tickets, assignTicket } = useTickets();
+  const [selectedSupport, setSelectedSupport] = useState({});
+
+
   const stats = {
     total: tickets.length,
     open: tickets.filter(t => t.status === 'Open').length,
@@ -27,10 +27,10 @@ const ManagerDashboard = () => {
     urgent: tickets.filter(t => t.priority === 'High' || t.priority === 'Urgent').length
   };
 
-  
+
   const supportTeam = ['Support Agent A', 'Support Agent B', 'Support Agent C'];
 
-  
+
   const handleAssign = (ticketId) => {
     const supportName = selectedSupport[ticketId];
     if (supportName) {
@@ -50,7 +50,7 @@ const ManagerDashboard = () => {
       animate={{ opacity: 1 }}
       className="content-inner"
     >
-     
+
       <header className="dashboard-header">
         <div>
           <h1 className="page-title">Analytics Dashboard</h1>
@@ -68,7 +68,7 @@ const ManagerDashboard = () => {
         </div>
       </header>
 
-     
+
       <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
         <div className="stat-card">
           <span className="stat-label">Total Volume</span>
@@ -102,9 +102,9 @@ const ManagerDashboard = () => {
         </div>
       </div>
 
-     
+
       <div className="manager-grid">
-       
+
         <div className="card">
           <div className="card-header">
             <div className="flex items-center gap-2">
@@ -167,7 +167,7 @@ const ManagerDashboard = () => {
                     </tr>
                   ))
                 ) : (
-                
+
                   <tr>
                     <td colSpan="5" className="empty-state-container">
                       <div className="flex flex-col items-center gap-3">
@@ -182,7 +182,7 @@ const ManagerDashboard = () => {
           </div>
         </div>
 
-      
+
         <div className="flex flex-col gap-6">
           <div className="card">
             <div className="card-header">
@@ -202,7 +202,7 @@ const ManagerDashboard = () => {
                       <span className="table-subject-main">{member}</span>
                       <span className="table-category-small text-primary">{memberTickets.length}/10 Tickets</span>
                     </div>
-                
+
                     <div className="progress-container">
                       <div
                         className="progress-fill"
@@ -218,7 +218,7 @@ const ManagerDashboard = () => {
             </div>
           </div>
 
-       
+
           <div className="insight-card">
             <div className="insight-header">
               <div className="insight-icon-bg">

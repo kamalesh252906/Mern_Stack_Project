@@ -9,7 +9,7 @@ const Navbar = () => {
 
 
   const handleLogout = () => {
-   
+
     if (window.confirm("Are you sure you want to log out?")) {
       logout();
     }
@@ -31,26 +31,26 @@ const Navbar = () => {
         </div>
       </div>
 
-      
+
       <div className="flex items-center gap-4">
-       
+
         <button className="navbar-icon-btn">
           <Globe size={18} />
         </button>
 
-       
+
         <button className="navbar-icon-btn">
           <Bell size={18} />
-          
+
           <span className="notification-badge"></span>
         </button>
 
-      
+
         <div className="navbar-divider"></div>
 
-       
+
         <div className="navbar-user-info">
-         
+
           <div className="navbar-avatar">
             {user?.name?.charAt(0)}
           </div>
@@ -63,7 +63,7 @@ const Navbar = () => {
           <ChevronDown size={14} className="text-light" />
         </div>
 
-    
+
         <button
           onClick={handleLogout}
           title="Logout"
